@@ -5,6 +5,9 @@ Give additional details about facial expression, shape of specs if person has wo
 const OPENAI_USER_PROMPT =
   'Here is an image. Analyze carefully and give me the details'
 
+const prefix = 'Create a 3D rendered image of a stylized cartoon character based on following prompt, make it beautiful and detailed:'
+
+
 export const generatePrompt = async (base64Image: string, apiKey: string): Promise<string> => {
   const promptResponse: Response = await fetch(
     'https://api.openai.com/v1/chat/completions',
@@ -63,7 +66,7 @@ export const generateImage = async (prompt: string, apiKey: string): Promise<str
       },
       body: JSON.stringify({
         model: 'dall-e-3',
-        prompt: prompt,
+        prompt: prefix + prompt,
         n: 1,
         size: '1024x1024',
       }),

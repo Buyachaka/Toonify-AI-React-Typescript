@@ -7,23 +7,24 @@ import {useAppDispatch} from "../../hooks/useStore";
 import {RootState} from "../../store";
 import {useSelector} from "react-redux";
 import {ApiKeyInput} from "../../components/ApiKeyInput";
-import {useRef} from "react";
+import {useRef, useState} from "react";
+import {ActionButton} from "../../components/ActionButton";
 
 
 export default function Toonify() {
     const dispatch = useAppDispatch()
     const { imageUploaded} = useSelector((state: RootState) => state.app)
+    const [imageToTransform, setImageToTransform] = useState<Blob | null>(null)
     const apiKeyRef: React.Ref<any> = useRef()
 
-    const toonify = async (fileToUse: Blob) => {
+    const toonify = async () => {
         const apiKey = apiKeyRef?.current?.value
         if (!apiKey) {
             alert('Please enter an API key')
             return
         }
         try {
-            dispatch(setImageUploaded(URL.createObjectURL(fileToUse)))
-            const base64Image = await getBase64(fileToUse)
+            const base64Image = await getBase64(imageToTransform as Blob)
             const prompt = await generatePrompt(base64Image, apiKey)
             const generatedImageURL = await generateImage(prompt, apiKey)
             dispatch(setGeneratedImageURL(generatedImageURL))
@@ -41,7 +42,8 @@ export default function Toonify() {
         if (!fileToUse) {
             return
         }
-        await toonify(fileToUse)
+        setImageToTransform (fileToUse)
+        dispatch(setImageUploaded(URL.createObjectURL(fileToUse)))
 
     }
 
@@ -52,7 +54,9 @@ export default function Toonify() {
         if (!fileToUse) {
             return
         }
-        await toonify(fileToUse)
+        setImageToTransform (fileToUse)
+        dispatch(setImageUploaded(URL.createObjectURL(fileToUse)))
+
     }
 
 
@@ -62,6 +66,8 @@ export default function Toonify() {
                 <FileInput onInputChange={handleFileChange} onDrop={handleDrop} imageUploaded={imageUploaded}/>
                 <ResultOutput/>
             </div>
+
+            <ActionButton onClick={() => toonify() } disabled={false} loading={false}>Toonify Me!</ActionButton>
             <ApiKeyInput ref={apiKeyRef}/>
         </>
     )

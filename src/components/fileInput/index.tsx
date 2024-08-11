@@ -18,7 +18,6 @@ export default function FileInput({ onInputChange, imageUploaded, onDrop }: File
     <div
       className="flex bg-gray-500 justify-center items-center flex-col gap-4 border-[#454545] border-4 border-dashed ml-10  md:h-96 md:w-96 h-80 w-80 rounded-xl"
       onDrop={onDrop}
-      onChange={onInputChange}
       onDragOver={(event) => event.preventDefault()}
     >
       {!imageUploaded ? (
