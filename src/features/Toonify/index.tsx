@@ -62,7 +62,7 @@ export default function Toonify() {
 
     return (
         <>
-            <div className="flex flex-row">
+            <div className="flex flex-col md:flex-row">
                 <FileInput onInputChange={handleFileChange} onDrop={handleDrop} imageUploaded={imageUploaded}/>
                 <ResultOutput/>
             </div>

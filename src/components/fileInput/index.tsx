@@ -16,7 +16,7 @@ export default function FileInput({ onInputChange, imageUploaded, onDrop }: File
 
   return (
     <div
-      className="flex bg-gray-500 justify-center items-center flex-col gap-4 border-[#454545] border-4 border-dashed ml-10  md:h-96 md:w-96 h-80 w-80 rounded-xl"
+      className="flex bg-[#1F316F] justify-center items-center flex-col gap-4 border-[#454545] border-4 border-dashed ml-10 mb-5 md:mb-0 md:h-96 md:w-96 h-80 w-80 rounded-xl"
       onDrop={onDrop}
       onDragOver={(event) => event.preventDefault()}
     >
@@ -36,7 +36,7 @@ export default function FileInput({ onInputChange, imageUploaded, onDrop }: File
           </div>
         </>
       ) : (
-        <img className="h-full w-full" src={imageUploaded}></img>
+        <img className="max-h-full max-w-full" src={imageUploaded}></img>
       )}
       <input
         ref={uploadFile}

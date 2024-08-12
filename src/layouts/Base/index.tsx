@@ -7,7 +7,7 @@ export default function BaseLayout({children}: BaseLayoutProps) {
     return (
         <>
           <nav className="bg-white border-gray-200 dark:bg-gray-900 fixed top-0 w-full left-0">
-            <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <div className="w-full flex flex-wrap items-center justify-between  p-4">
               <a className="flex items-center space-x-3 rtl:space-x-reverse">
                 <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Toonify</span>
               </a>
