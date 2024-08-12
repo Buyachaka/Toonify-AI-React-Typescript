@@ -2,6 +2,10 @@
 
 An App to generate cartoon version of an image.
 
+[Live Demo](https://toonify-your-images.netlify.app/)
+
+![alt text](./public/toonify-1.jpg)
+
 # Setup
 
 ```
