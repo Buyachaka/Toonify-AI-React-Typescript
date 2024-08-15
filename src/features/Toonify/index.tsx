@@ -63,7 +63,6 @@ export default function Toonify() {
         dispatch(setImageUploaded(URL.createObjectURL(fileToUse)))
     }
 
-
     return (
         <>
             <div className="flex flex-col md:flex-row">
