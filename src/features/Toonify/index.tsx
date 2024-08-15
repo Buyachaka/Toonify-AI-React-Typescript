@@ -2,7 +2,7 @@ import FileInput from '../../components/fileInput'
 import ResultOutput from '../../components/ResultOutput'
 import {getBase64} from "../../helpers/imageManipulation.ts";
 import {generateImage, generatePrompt} from "../../service/openAiApi.ts";
-import {setGeneratedImageURL, setImageUploaded} from "../../slices";
+import {setGeneratedImageURL, setImageUploaded, setIsGenerating} from "../../slices";
 import {useAppDispatch} from "../../hooks/useStore";
 import {RootState} from "../../store";
 import {useSelector} from "react-redux";
@@ -13,16 +13,18 @@ import {ActionButton} from "../../components/ActionButton";
 
 export default function Toonify() {
     const dispatch = useAppDispatch()
-    const { imageUploaded} = useSelector((state: RootState) => state.app)
+    const {imageUploaded, generatedImageURL} = useSelector((state: RootState) => state.app)
     const [imageToTransform, setImageToTransform] = useState<Blob | null>(null)
     const apiKeyRef: React.Ref<any> = useRef()
 
     const toonify = async () => {
+        dispatch(setGeneratedImageURL(''))
         const apiKey = apiKeyRef?.current?.value
         if (!apiKey) {
             alert('Please enter an API key')
             return
         }
+        dispatch(setIsGenerating(true))
         try {
             const base64Image = await getBase64(imageToTransform as Blob)
             const prompt = await generatePrompt(base64Image, apiKey)
@@ -31,6 +33,9 @@ export default function Toonify() {
         } catch (e) {
             console.error(e)
             alert('Error uploading file' + e)
+        }
+        finally {
+            setIsGenerating(false)
         }
     }
 
@@ -42,7 +47,7 @@ export default function Toonify() {
         if (!fileToUse) {
             return
         }
-        setImageToTransform (fileToUse)
+        setImageToTransform(fileToUse)
         dispatch(setImageUploaded(URL.createObjectURL(fileToUse)))
 
     }
@@ -54,20 +59,24 @@ export default function Toonify() {
         if (!fileToUse) {
             return
         }
-        setImageToTransform (fileToUse)
+        setImageToTransform(fileToUse)
         dispatch(setImageUploaded(URL.createObjectURL(fileToUse)))
-
     }
 
 
     return (
         <>
             <div className="flex flex-col md:flex-row">
-                <FileInput onInputChange={handleFileChange} onDrop={handleDrop} imageUploaded={imageUploaded}/>
-                <ResultOutput/>
+                {
+                    !generatedImageURL ?
+                        <FileInput onInputChange={handleFileChange} onDrop={handleDrop}
+                                   imageUploaded={imageUploaded}/> :
+                        <ResultOutput/>
+
+                }
             </div>
 
-            <ActionButton onClick={() => toonify() } disabled={false} loading={false}>Toonify Me!</ActionButton>
+            <ActionButton onClick={() => toonify()} disabled={false} loading={false}>Toonify Me!</ActionButton>
             <ApiKeyInput ref={apiKeyRef}/>
         </>
     )

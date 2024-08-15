@@ -1,13 +1,14 @@
 import { useAppSelector } from '../../hooks/useStore'
-
-export default function ResultOutput() {
+interface ResultOutputProps {
+}
+export default function ResultOutput({  }: ResultOutputProps) {
   const generatedImageURL = useAppSelector(
     (state) => state.app.generatedImageURL,
   )
 
   return (
     <>
-      <div className="ml-10 bg-[#363636] md:h-96 md:w-96 h-80 w-80 rounded-xl text-[#F0F0F0]">
+      <div className=" bg-[#363636] md:h-96 md:w-96 h-80 w-80 rounded-xl text-[#F0F0F0]">
         {!generatedImageURL ? (
           <div className="flex justify-center items-center h-full">
             Result will be displayed here
