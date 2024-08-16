@@ -1,6 +1,6 @@
 # Toonify your images
 
-An App to generate cartoon version of an image.
+A Weekend hackton project to generate cartoon version of an image.
 
 [Live Demo](https://toonify.netlify.app/)
 
